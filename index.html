@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guessing Game || ShadowX</title>
+    <style>
+       /* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f3f4f6; /* Soft light gray background */
+    color: #333; /* Dark text for readability */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 20px; /* Padding for small screens */
+}
+
+.container {
+    text-align: center;
+    background-color: #ffffff; /* White background */
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* Enhanced shadow for depth */
+    padding: 30px;
+    width: 100%; /* Full width for responsiveness */
+    max-width: 450px;
+}
+
+h1 {
+    color: #007bff; /* Bright blue for title */
+    margin-bottom: 10px;
+}
+
+h2 {
+    color: #495057; /* Gray for subtitles */
+    margin-bottom: 10px; /* Space between headers */
+}
+
+#div1 {
+    margin-bottom: 20px; /* Space between input and other elements */
+}
+
+input[type="number"] {
+    padding: 10px;
+    margin: 15px 0;
+    border: 2px solid #007bff; /* Blue border */
+    border-radius: 5px;
+    width: calc(100% - 24px); /* Full width minus padding */
+    font-size: 16px;
+}
+
+input[type="button"] {
+    background-color: #007bff; /* Blue background */
+    color: white; /* White text */
+    border: none;
+    padding: 12px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s, transform 0.3s;
+    margin-top: 10px; /* Space above button */
+}
+
+input[type="button"]:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    transform: scale(1.05); /* Slightly enlarge on hover */
+}
+
+h3 {
+    color: #dc3545; /* Red for error messages */
+    margin-top: 10px;
+}
+
+#div2 {
+    margin-top: 20px; /* Added space between divs */
+}
+
+.gameEnd, .gameWin {
+    display: none; /* Hidden by default */
+    margin-top: 20px;
+    background-color: #ffffff; /* White background */
+    border: 2px solid #007bff; /* Blue border */
+    border-radius: 10px; /* Rounded corners */
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Soft shadow */
+    text-align: center; /* Center text */
+    transition: transform 0.3s ease; /* Animation */
+    flex-direction: column;
+}
+
+.gameEnd.active, .gameWin.active {
+    display: block; /* Show when active */
+}
+
+.gameWin {
+    color: #28a745; /* Green for win message */
+    background-color: #e0f7e0; /* Light green background */
+}
+
+.gameEnd {
+    color: #dc3545; /* Red for game over message */
+    background-color: #f8d7da; /* Light red background */
+}
+
+/* Add animations */
+.gameEnd.active, .gameWin.active {
+    transform: scale(1.05); /* Slightly enlarge when active */
+}
+
+/* Responsive Styles */
+@media (max-width: 600px) {
+    .container {
+        padding: 20px; /* Reduced padding for smaller screens */
+    }
+
+    input[type="button"], input[type="number"] {
+        width: 100%; /* Full width for input and buttons */
+    }
+
+    h1, h2 {
+        font-size: 1.5em; /* Larger font sizes on small screens */
+    }
+}
+/* Updated CSS */ 
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>GUESSING GAME</h1>
+        <h2>The Number Between</h2>
+        <h2><strong>1 - 100</strong></h2>
+        <div id="div1">
+            <input type="number" id="UserGuess" placeholder="Enter your guess" required>
+            <input type="button" id="submit" value="SUBMIT">
+            <h3 id="error"></h3>
+        </div>
+        <div id="div2">
+            <h4>Previous Guesses: <strong id="PrevGuess"></strong></h4>
+            <h4>Remaining Attempts: <strong id="RemAttems"></strong></h4>
+        </div>
+        <div class="gameEnd" id="gameEnd">
+            <h1>Game Over!!!</h1>
+            <input type="button" onclick="window.location.reload()" value="Re-Start">
+        </div>
+        <div class="gameWin" id="gameWin">
+            <h1>YOU WON.</h1>
+            <input type="button" onclick="window.location.reload()" value="Re-Start">
+        </div>
+    </div>
+    <script>
+        // Generate Number For Guess
+const GeneratedNum = Math.floor(Math.random() * 100 + 1);
+console.log(GeneratedNum);
+
+// Select Elements From DOM
+const UserGuess = document.querySelector("#UserGuess");
+const SubmitBtn = document.querySelector("#submit");
+const ErrorDiv = document.querySelector("#error");
+const PrevGuess = document.querySelector("#PrevGuess");
+const RemAttems = document.querySelector("#RemAttems");
+const GameEndDiv = document.querySelector("#gameEnd");
+const GameWinDiv = document.querySelector("#gameWin");
+
+// For Play Game and Total Attempts
+let PlayGame = true;
+let Attems = 10;
+RemAttems.innerHTML = Attems;
+
+// Start The Game On Submit
+SubmitBtn.addEventListener("click", () => {
+    if (PlayGame) {
+        if (Attems > 0) {
+            ValidateNum(UserGuess.value);
+        } else {
+            endGame();
+        }
+    }
+});
+
+// Validate User Input Guess
+function ValidateNum(e) {
+    if (e === "") {
+        PassMessage(`Please Enter a Number`);
+    } else if (e > 100) {
+        PassMessage(`Please Enter a Number Less Than 100`);
+    } else if (e < 1) {
+        PassMessage(`Please Enter a Number More Than 1`);
+    } else {
+        CheckNum(e);
+        PrevGuess.innerHTML += `${e}, `;
+        Attems--;
+        RemAttems.innerHTML = Attems;
+
+        // Check if game should end
+        if (Attems === 0) {
+            endGame();
+        }
+    }
+}
+
+// Check Number Against Generated Number
+function CheckNum(guess) {
+    if (guess == GeneratedNum) {
+        ErrorDiv.innerText = `You Won! You Guessed the Right Number`;
+        ErrorDiv.style.color = "green";
+        setTimeout(winGame, 1500);
+    } else if (guess > GeneratedNum) {
+        PassMessage(`The Number is Too High.`);
+    } else if (guess < GeneratedNum) {
+        PassMessage(`The Number is Too Low.`);
+    }
+}
+
+// Pass The Message To The User
+function PassMessage(message) {
+    ErrorDiv.innerText = message;
+    UserGuess.value = "";
+}
+
+// End The Game
+function endGame() {
+    PlayGame = false; // Prevent further inputs
+    GameEndDiv.style.display = "flex";
+    UserGuess.disabled = true; // Disable the input
+}
+
+// Win The Game
+function winGame() {
+    PlayGame = false; // Prevent further inputs
+    GameWinDiv.style.display = "flex";
+    UserGuess.disabled = true; // Disable the input
+}
+
+    </script>
+</body>
+</html>
