@@ -1,0 +1,123 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f3f4f6; /* Soft light gray background */
+    color: #333; /* Dark text for readability */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 20px; /* Padding for small screens */
+}
+
+.container {
+    text-align: center;
+    background-color: #ffffff; /* White background */
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* Enhanced shadow for depth */
+    padding: 30px;
+    width: 100%; /* Full width for responsiveness */
+    max-width: 450px;
+}
+
+h1 {
+    color: #007bff; /* Bright blue for title */
+    margin-bottom: 10px;
+}
+
+h2 {
+    color: #495057; /* Gray for subtitles */
+    margin-bottom: 10px; /* Space between headers */
+}
+
+#div1 {
+    margin-bottom: 20px; /* Space between input and other elements */
+}
+
+input[type="number"] {
+    padding: 10px;
+    margin: 15px 0;
+    border: 2px solid #007bff; /* Blue border */
+    border-radius: 5px;
+    width: calc(100% - 24px); /* Full width minus padding */
+    font-size: 16px;
+}
+
+input[type="button"] {
+    background-color: #007bff; /* Blue background */
+    color: white; /* White text */
+    border: none;
+    padding: 12px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s, transform 0.3s;
+    margin-top: 10px; /* Space above button */
+}
+
+input[type="button"]:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    transform: scale(1.05); /* Slightly enlarge on hover */
+}
+
+h3 {
+    color: #dc3545; /* Red for error messages */
+    margin-top: 10px;
+}
+
+#div2 {
+    margin-top: 20px; /* Added space between divs */
+}
+
+.gameEnd, .gameWin {
+    display: none; /* Hidden by default */
+    margin-top: 20px;
+    background-color: #ffffff; /* White background */
+    border: 2px solid #007bff; /* Blue border */
+    border-radius: 10px; /* Rounded corners */
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Soft shadow */
+    text-align: center; /* Center text */
+    transition: transform 0.3s ease; /* Animation */
+    flex-direction: column;
+}
+
+.gameEnd.active, .gameWin.active {
+    display: block; /* Show when active */
+}
+
+.gameWin {
+    color: #28a745; /* Green for win message */
+    background-color: #e0f7e0; /* Light green background */
+}
+
+.gameEnd {
+    color: #dc3545; /* Red for game over message */
+    background-color: #f8d7da; /* Light red background */
+}
+
+/* Add animations */
+.gameEnd.active, .gameWin.active {
+    transform: scale(1.05); /* Slightly enlarge when active */
+}
+
+/* Responsive Styles */
+@media (max-width: 600px) {
+    .container {
+        padding: 20px; /* Reduced padding for smaller screens */
+    }
+
+    input[type="button"], input[type="number"] {
+        width: 100%; /* Full width for input and buttons */
+    }
+
+    h1, h2 {
+        font-size: 1.5em; /* Larger font sizes on small screens */
+    }
+}

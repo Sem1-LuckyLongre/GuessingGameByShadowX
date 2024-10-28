@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guessing Game || ShadowX</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>GUESSING GAME</h1>
+        <h2>The Number Between</h2>
+        <h2><strong>1 - 100</strong></h2>
+        <div id="div1">
+            <input type="number" id="UserGuess" placeholder="Enter your guess" required>
+            <input type="button" id="submit" value="SUBMIT">
+            <h3 id="error"></h3>
+        </div>
+        <div id="div2">
+            <h4>Previous Guesses: <strong id="PrevGuess"></strong></h4>
+            <h4>Remaining Attempts: <strong id="RemAttems"></strong></h4>
+        </div>
+        <div class="gameEnd" id="gameEnd">
+            <h1>Game Over!!!</h1>
+            <input type="button" onclick="window.location.reload()" value="Re-Start">
+        </div>
+        <div class="gameWin" id="gameWin">
+            <h1>YOU WON.</h1>
+            <input type="button" onclick="window.location.reload()" value="Re-Start">
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
